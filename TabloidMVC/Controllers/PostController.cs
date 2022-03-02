@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
+using System;
 using System.Security.Claims;
+using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
@@ -20,11 +22,17 @@ namespace TabloidMVC.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        // do i need to 
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPublishedPosts();
             return View(posts);
         }
+
+
+        // publicIActionResult MyPost, then create a view called myPost, will be an index,
+        // 
+
 
         public IActionResult Details(int id)
         {
@@ -72,6 +80,54 @@ namespace TabloidMVC.Controllers
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return int.Parse(id);
+        }
+
+       
+        public ActionResult Edit(int id)
+        {
+            Post post = _postRepository.GetPublishedPostById(id);
+            return View(post);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult Edit(int id, Post post)
+        {
+            try
+            {
+                _postRepository.UpdatePost(post);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return View(post);
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            Post post = _postRepository.GetPublishedPostById(id);
+            return View(post);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Post post)
+        {
+            try
+            {
+                _postRepository.DeletePost(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View(post);
+            }
         }
     }
 }
