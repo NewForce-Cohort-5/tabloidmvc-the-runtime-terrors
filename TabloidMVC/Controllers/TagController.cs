@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using TabloidMVC.Models;
 using TabloidMVC.Repositories;
 
@@ -18,7 +19,7 @@ namespace TabloidMVC.Controllers
         // GET: TagController
         public ActionResult Index()
         {
-            List<Tag> tags = _tagRepo.GetAllTags(); //check on how to sort by alphabetical order?
+            List<Tag> tags = _tagRepo.GetAllTags().OrderBy(x => x.Name).ToList();
 
             return View(tags);
         }
