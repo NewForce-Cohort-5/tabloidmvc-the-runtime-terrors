@@ -22,7 +22,7 @@ namespace TabloidMVC.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // do i need to 
+        
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPublishedPosts();
@@ -31,7 +31,12 @@ namespace TabloidMVC.Controllers
 
 
         // publicIActionResult MyPost, then create a view called myPost, will be an index,
-        // 
+
+        public IActionResult MyPost()
+        {
+            var individualPosts = _postRepository.GetAllIndiviualPosts();
+            return View(individualPosts);
+        }
 
 
         public IActionResult Details(int id)
