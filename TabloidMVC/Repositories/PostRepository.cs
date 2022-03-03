@@ -50,7 +50,7 @@ namespace TabloidMVC.Repositories
             }
         }
        ////////////////TRYING TO VIEW ALL COMMENTS ONCE IN DETAILS////////////
-        public void GetAllComments(int id)
+        public Comment GetAllComments(int id)
         {
             using (var conn = Connection)
             {
@@ -70,10 +70,6 @@ namespace TabloidMVC.Repositories
 
                     Comment comment = null;
 
-                    if (reader.Read())
-                    {
-                        comment = NewCommentFromReader(reader);
-                    };
                     reader.Close();
                     return comment;
                 }
