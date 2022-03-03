@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TabloidMVC.Models;
@@ -37,10 +38,11 @@ namespace TabloidMVC.Controllers
         {
             try
             {
+                _tagRepo.AddTag(tag);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
