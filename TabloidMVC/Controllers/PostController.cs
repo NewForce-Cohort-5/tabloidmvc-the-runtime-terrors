@@ -29,12 +29,14 @@ namespace TabloidMVC.Controllers
             return View(posts);
         }
 
-
         
+
+
         //this is a created view that fetches the user profile id is passed through a method that retrieves a specific persons Id.
         public IActionResult MyPost(int id)
         {
             int userId = GetCurrentUserProfileId();
+            List<Post> posts = _postRepository.GetAll().OrderBy(x => x.Name).ToList();
             var individualPosts = _postRepository.GetAllIndiviualPosts(userId);
             return View(individualPosts);
         }

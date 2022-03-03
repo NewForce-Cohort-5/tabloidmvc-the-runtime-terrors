@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +37,10 @@
             </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>          
+            </td>    
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDateTime.OrderBy)
+            </td> 
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
@@ -44,19 +50,3 @@
 }
     </tbody>
 </table>
-
-@*function main() {
-  for(let n=1; n<=100; n++) {
-    if (n % 15 === 0) {
-      console.log("fizzbuzz");
-    } else if (n % 3 === 0) {
-      console.log("fizz");
-    } else if (n % 5 === 0) {
-      console.log("buzz");
-    } else {
-      console.log(n);
-    }
-  }
-}
-
-main();*@
