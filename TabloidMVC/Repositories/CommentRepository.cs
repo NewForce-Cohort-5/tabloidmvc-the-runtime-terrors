@@ -32,7 +32,7 @@ namespace TabloidMVC.Repositories
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"
-                                SELECT Id, Subject, Content, Author, Date
+                                SELECT Id, Subject, Content, UserProfileId, PostId, CreateDateTime
                                   FROM Comment
                                  WHERE Id = @id";
 
@@ -44,11 +44,12 @@ namespace TabloidMVC.Repositories
                         {
                             Comment comment = new Comment()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Subject = reader.GetString(reader.GetOrdinal("Subject")),
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
-                                Author = reader.GetString(reader.GetOrdinal("Author")),
-                                Date = reader.GetInt32(reader.GetOrdinal("Date"))
+                                PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime"))
                             };
 
                             reader.Close();
@@ -70,14 +71,13 @@ namespace TabloidMVC.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                INSERT INTO Comment (Subject, Content, Author, Date)
+                                INSERT INTO Comment (Subject, Content, CreateDateTime)
                                 OUTPUT INSERTED.ID
-                                VALUES (@subject, @content, @author, @date";
+                                VALUES (@subject, @content, @createDateTime";
 
                     cmd.Parameters.AddWithValue("@subject", comment.Subject);
                     cmd.Parameters.AddWithValue("@content", comment.Content);
-                    cmd.Parameters.AddWithValue("@author", comment.Author);
-                    cmd.Parameters.AddWithValue("@date", comment.Date);
+                    cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
 
                     int id = (int)cmd.ExecuteScalar();
 
@@ -97,16 +97,19 @@ namespace TabloidMVC.Repositories
                         cmd.CommandText = @"
                                    UPDATE Comment
                                      SET
+                                           
+                                           PostId = @postId,
                                            Subject = @subject,
                                            Content = @content,
-                                           Author = @author,
-                                            Date = @date
+                                           UserProfileId = @userProfileId,
+                                            CreateDateTime = @createDateTime
                                     WHERE Id = @id";
 
+                        cmd.Parameters.AddWithValue("@postId", comment.PostId);
                         cmd.Parameters.AddWithValue("@subject", comment.Subject);
                         cmd.Parameters.AddWithValue("@content", comment.Content);
-                        cmd.Parameters.AddWithValue("@author", comment.Author);
-                        cmd.Parameters.AddWithValue("@date", comment.Date);
+                        cmd.Parameters.AddWithValue("@userProfileId", comment.UserProfileId);
+                        cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
 
                         cmd.ExecuteNonQuery();
 
@@ -142,10 +145,10 @@ namespace TabloidMVC.Repositories
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"
-                                SELECT Id, Subject, Content, Author, Date
+                                SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
                                 FROM Comment";
 
-                        SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                         List<Comment> comments = new List<Comment>();
 
@@ -153,10 +156,12 @@ namespace TabloidMVC.Repositories
                         {
                             Comment comment = new Comment
                             {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                                 Subject = reader.GetString(reader.GetOrdinal("Subject")),
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
-                                Author = reader.GetString(reader.GetOrdinal("Author")),
-                                Date = reader.GetInt32(reader.GetOrdinal("Date"))
+                                CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime"))
                             };
 
                             comments.Add(comment);
