@@ -32,9 +32,9 @@ namespace TabloidMVC.Controllers
 
         // publicIActionResult MyPost, then create a view called myPost, will be an index,
 
-        public IActionResult MyPost()
+        public IActionResult MyPost(int id, int userProfileId)
         {
-            var individualPosts = _postRepository.GetAllIndiviualPosts();
+            var individualPosts = _postRepository.GetUserPostById(id, userProfileId);
             return View(individualPosts);
         }
 

@@ -50,7 +50,7 @@ namespace TabloidMVC.Repositories
             }
         }
 
-        // create individual post here, the where is what will change
+        //create individual post here, the where is what will change
         public List<Post> GetAllIndiviualPosts()
         {
             using (var conn = Connection)
@@ -72,7 +72,7 @@ namespace TabloidMVC.Repositories
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE u.id = p.UserProfileId";
+                        WHERE UserProfileId = @userProfileId";
                     var reader = cmd.ExecuteReader();
 
                     var posts = new List<Post>();
