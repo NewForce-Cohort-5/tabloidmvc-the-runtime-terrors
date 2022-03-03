@@ -13,11 +13,13 @@ namespace TabloidMVC.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public PostController(IPostRepository postRepository, ICategoryRepository categoryRepository)
+        public PostController(IPostRepository postRepository, ICategoryRepository categoryRepository, ICommentRepository commentRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
+            _commentRepository = commentRepository;
         }
 
         public IActionResult Index()
@@ -39,6 +41,21 @@ namespace TabloidMVC.Controllers
                 }
             }
             return View(post);
+        }
+        //GET COMMENTS FROM DETAILS: Within details or separate public IActionResult?
+        public IActionResult Comments(int id)
+        {
+            var comment = _commentRepository.GetAllComments(id);
+            if (comment == null)
+            {
+                int commentId = GetCurrentUserProfileId();
+                comment = _commentRepository.GetUserPostById(id, userId);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+                return View(comment);
+            }
         }
 
         public IActionResult Create()

@@ -49,6 +49,37 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+       ////////////////TRYING TO VIEW ALL COMMENTS ONCE IN DETAILS////////////
+        public void GetAllComments(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            SELECT c.Id, c.PostId, c.UserProfileId, c.Subject, c.Content, c.CreateDateTime
+                             FROM Comment c
+                                  LEFT JOIN Post p ON c.PostId = p.id
+                                  LEFT JOIN UserProfile u ON c.UserProfileId = u.id
+                            WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
+                                  AND c.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    Comment comment = null;
+
+                    if (reader.Read())
+                    {
+                        comment = NewCommentFromReader(reader);
+                    };
+                    reader.Close();
+                    return comment;
+                }
+            }
+        }
+
 
         public Post GetPublishedPostById(int id)
         {
