@@ -39,6 +39,7 @@ namespace TabloidMVC.Controllers
             try
             {
                 _tagRepo.AddTag(tag);
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
