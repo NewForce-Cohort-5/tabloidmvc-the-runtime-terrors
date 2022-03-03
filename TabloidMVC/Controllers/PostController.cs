@@ -30,11 +30,12 @@ namespace TabloidMVC.Controllers
         }
 
 
-        // publicIActionResult MyPost, then create a view called myPost, will be an index,
-
-        public IActionResult MyPost(int id, int userProfileId)
+        
+        //this is a created view that fetches the user profile id is passed through a method that retrieves a specific persons Id.
+        public IActionResult MyPost(int id)
         {
-            var individualPosts = _postRepository.GetUserPostById(id, userProfileId);
+            int userId = GetCurrentUserProfileId();
+            var individualPosts = _postRepository.GetAllIndiviualPosts(userId);
             return View(individualPosts);
         }
 

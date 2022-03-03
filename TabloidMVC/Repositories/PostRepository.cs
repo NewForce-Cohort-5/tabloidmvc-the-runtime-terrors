@@ -50,8 +50,8 @@ namespace TabloidMVC.Repositories
             }
         }
 
-        //create individual post here, the where is what will change
-        public List<Post> GetAllIndiviualPosts()
+        //This is a list of posts that has a method that Gets all the individual posts for the user by looking at their userprofileId to identify who is writing the post
+        public List<Post> GetAllIndiviualPosts(int id)
         {
             using (var conn = Connection)
             {
@@ -72,9 +72,10 @@ namespace TabloidMVC.Repositories
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE UserProfileId = @userProfileId";
+                        WHERE p.UserProfileId = @userProfileId";
+                    cmd.Parameters.AddWithValue("@userProfileid", id);
                     var reader = cmd.ExecuteReader();
-
+                    
                     var posts = new List<Post>();
 
                     while (reader.Read())

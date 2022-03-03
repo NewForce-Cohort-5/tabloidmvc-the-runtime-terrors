@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<TabloidMVC.Models.Post>
 
 @{
-    ViewData["Title"] = "MyPost";
+    ViewData["Title"] = "My Post";
 }
 
-<h1>MyPost</h1>
+<h1>My Post</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,71 +13,50 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageLocation)
+                @Html.DisplayNameFor(model => model.Category)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PublishDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsApproved)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfileId)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
+            </th>
             <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>          
             <td>
-                @Html.DisplayFor(modelItem => item.ImageLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsApproved)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfileId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@*function main() {
+  for(let n=1; n<=100; n++) {
+    if (n % 15 === 0) {
+      console.log("fizzbuzz");
+    } else if (n % 3 === 0) {
+      console.log("fizz");
+    } else if (n % 5 === 0) {
+      console.log("buzz");
+    } else {
+      console.log(n);
+    }
+  }
+}
+
+main();*@
