@@ -71,7 +71,8 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                         SELECT Id, [Name]
                         FROM Tag
-                        WHERE Id = @id";
+                        WHERE Id = @id
+                    ";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -140,5 +141,27 @@ namespace TabloidMVC.Repositories
             }
         }
 
+        public void UpdateTag(Tag tag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Tag
+                            SET 
+                              [Name] = @name 
+                            WHERE Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@name", tag.Name);
+                    cmd.Parameters.AddWithValue("@id", tag.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
