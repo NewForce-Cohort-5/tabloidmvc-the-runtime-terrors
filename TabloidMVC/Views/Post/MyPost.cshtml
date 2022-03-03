@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model)
+                @Html.DisplayNameFor(model => model.CreateDateTime)
             </th>
         </tr>
     </thead>
@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>    
             <td>
-                @Html.DisplayFor(modelItem => item.CreateDateTime.OrderBy)
+                @Html.DisplayFor(modelItem => item.CreateDateTime)
             </td> 
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

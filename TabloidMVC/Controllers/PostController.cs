@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
@@ -32,11 +34,12 @@ namespace TabloidMVC.Controllers
         
 
 
+        //Working on ordering the date by time
         //this is a created view that fetches the user profile id is passed through a method that retrieves a specific persons Id.
         public IActionResult MyPost(int id)
         {
             int userId = GetCurrentUserProfileId();
-            List<Post> posts = _postRepository.GetAll().OrderBy(x => x.Name).ToList();
+            List<Post> posts = _postRepository.GetAllIndiviualPosts(id).OrderByDescending(x => x.CreateDateTime).ToList();
             var individualPosts = _postRepository.GetAllIndiviualPosts(userId);
             return View(individualPosts);
         }
