@@ -27,7 +27,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.OrderByDescending(item => item.CreateDateTime)) 
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

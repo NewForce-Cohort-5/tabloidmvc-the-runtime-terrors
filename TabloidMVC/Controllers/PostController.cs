@@ -31,15 +31,10 @@ namespace TabloidMVC.Controllers
             return View(posts);
         }
 
-        
-
-
-        //Working on ordering the date by time
         //this is a created view that fetches the user profile id is passed through a method that retrieves a specific persons Id.
         public IActionResult MyPost(int id)
         {
             int userId = GetCurrentUserProfileId();
-            List<Post> posts = _postRepository.GetAllIndiviualPosts(id).OrderByDescending(x => x.CreateDateTime).ToList();
             var individualPosts = _postRepository.GetAllIndiviualPosts(userId);
             return View(individualPosts);
         }
