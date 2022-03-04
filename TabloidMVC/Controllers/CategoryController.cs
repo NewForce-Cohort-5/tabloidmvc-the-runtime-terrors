@@ -1,60 +1,61 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TabloidMVC.Models;
+using TabloidMVC.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TabloidMVC.Models;
-using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
-    public class TagController : Controller
+    public class CategoryController : Controller
     {
-        private readonly ITagRepository _tagRepo;
-
-        public TagController(ITagRepository tagRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        // GET: CategoryController
+        public CategoryController(ICategoryRepository CategoryRepository)
         {
-            _tagRepo = tagRepository;
+            _categoryRepository = CategoryRepository;
         }
-
-        // GET: TagController
         public ActionResult Index()
         {
-            List<Tag> tags = _tagRepo.GetAllTags().OrderBy(x => x.Name).ToList();
-
-            return View(tags);
+            List<Category> categories = _categoryRepository.GetAll().OrderBy(x=>x.Name).ToList();
+            return View(categories);
         }
 
-        // GET: TagController/Create
+        // GET: CategoryController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: CategoryController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: TagController/Create
+        // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Tag tag)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                _tagRepo.AddTag(tag);
-
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch
             {
                 return View();
             }
         }
 
-        // GET: TagController/Edit/5
+        // GET: CategoryController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: TagController/Edit/5
+        // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -69,13 +70,13 @@ namespace TabloidMVC.Controllers
             }
         }
 
-        // GET: TagController/Delete/5
+        // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: TagController/Delete/5
+        // POST: CategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
