@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
@@ -22,16 +24,20 @@ namespace TabloidMVC.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // do i need to 
+        
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPublishedPosts();
             return View(posts);
         }
 
-
-        // publicIActionResult MyPost, then create a view called myPost, will be an index,
-        // 
+        //this is a created view that fetches the user profile id is passed through a method that retrieves a specific persons Id.
+        public IActionResult MyPost(int id)
+        {
+            int userId = GetCurrentUserProfileId();
+            var individualPosts = _postRepository.GetAllIndiviualPosts(userId);
+            return View(individualPosts);
+        }
 
 
         public IActionResult Details(int id)
