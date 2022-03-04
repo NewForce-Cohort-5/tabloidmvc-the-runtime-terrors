@@ -50,8 +50,45 @@ namespace TabloidMVC.Repositories
             }
         }
 
-        // create individual post here
-        
+        //This is a list of posts that has a method that Gets all the individual posts for the user by looking at their userprofileId to identify who is writing the post
+        public List<Post> GetAllIndiviualPosts(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                       SELECT p.Id, p.Title, p.Content, 
+                              p.ImageLocation AS HeaderImage,
+                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
+                              p.CategoryId, p.UserProfileId,
+                              c.[Name] AS CategoryName,
+                              u.FirstName, u.LastName, u.DisplayName, 
+                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                              u.UserTypeId, 
+                              ut.[Name] AS UserTypeName
+                         FROM Post p
+                              LEFT JOIN Category c ON p.CategoryId = c.id
+                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                        WHERE p.UserProfileId = @userProfileId";
+                    cmd.Parameters.AddWithValue("@userProfileid", id);
+                    var reader = cmd.ExecuteReader();
+                    
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        posts.Add(NewPostFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return posts;
+                }
+            }
+        }
 
         public Post GetPublishedPostById(int id)
         {

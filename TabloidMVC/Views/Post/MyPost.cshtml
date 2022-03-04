@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TabloidMVC.Models.Post>
+
+@{
+    ViewData["Title"] = "My Post";
+}
+
+<h1>My Post</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDateTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderByDescending(item => item.CreateDateTime)) 
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>    
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDateTime)
+            </td> 
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
