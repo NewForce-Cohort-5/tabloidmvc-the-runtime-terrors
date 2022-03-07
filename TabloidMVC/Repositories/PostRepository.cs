@@ -49,8 +49,46 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-       ////////////////TRYING TO VIEW ALL COMMENTS ONCE IN DETAILS////////////
-        public Comment GetAllComments(int id)
+        ////////////////TRYING TO VIEW ALL COMMENTS ONCE IN DETAILS////////////
+
+        public List<Comment> Comments()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"
+                        SELECT Id, PostId, UserProfileId, Subject, Content, CreateDateTime
+                        FROM Comment";
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+        List<Comment> comments = new List<Comment>();
+            while (reader.Read())
+                {
+                    Comment comment = new Comment
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                        UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                        Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                        Content = reader.GetString(reader.GetOrdinal("Content")),
+                        CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime")),
+
+                    };
+
+                         comments.Add(comment);
+            }
+                         reader.Close();
+
+                     return comments;
+        }
+}
+}
+        
+        
+        public Comment GetAllComments(int id, int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -63,9 +101,11 @@ namespace TabloidMVC.Repositories
                                   LEFT JOIN Post p ON c.PostId = p.id
                                   LEFT JOIN UserProfile u ON c.UserProfileId = u.id
                             WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
-                                  AND c.Id = @id";
+                                  AND c.Id = @id
+                                  AND u.Id = @userProfileId";
 
                     cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
                     var reader = cmd.ExecuteReader();
 
                     Comment comment = null;
@@ -75,6 +115,9 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+ 
+
 
 
         public Post GetPublishedPostById(int id)
@@ -224,5 +267,6 @@ namespace TabloidMVC.Repositories
                 }
             };
         }
+
     }
 }

@@ -45,17 +45,18 @@ namespace TabloidMVC.Controllers
         //GET COMMENTS FROM DETAILS: Within details or separate public IActionResult?
         public IActionResult Comments(int id)
         {
-            var comment = _commentRepository.GetAllComments(id);
+            var comment = _commentRepository.GetAllComments();
             if (comment == null)
             {
                 int commentId = GetCurrentUserProfileId();
-                comment = _commentRepository.GetUserPostById(id, userId);
+                comment = _commentRepository.GetUserPostById(id, commentId);
                 if (comment == null)
                 {
                     return NotFound();
                 }
-                return View(comment);
+  
             }
+            return View(comment);
         }
 
         public IActionResult Create()
