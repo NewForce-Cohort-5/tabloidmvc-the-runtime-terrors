@@ -95,7 +95,7 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"
                 SELECT u.id, u.DisplayName, u.FirstName, u.LastName, u.Email,
-                              u.CreateDateTime, u.ImageLocation, u.UserTypeId, u.UserType,
+                              u.CreateDateTime, u.ImageLocation, u.UserTypeId,
                               ut.[Name] AS UserTypeName
                          FROM UserProfile u
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id                
