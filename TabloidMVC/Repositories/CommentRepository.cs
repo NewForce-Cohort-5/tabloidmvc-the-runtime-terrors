@@ -49,7 +49,7 @@ namespace TabloidMVC.Repositories
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
                                 PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
                                 UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                                CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime"))
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
                             };
 
                             reader.Close();
@@ -125,17 +125,15 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                       SELECT p.Id, p.Title, p.Content, 
-                              p.ImageLocation AS HeaderImage,
-                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                              p.CategoryId, p.UserProfileId,
-                              c.[Name] AS CategoryName,
+                       SELECT c.Id, c.PostId, c.Subject, 
+                              c.Content, c.userProfileId, c.CreateDateTime,
+                              p.Title AS PostTitle
                               u.FirstName, u.LastName, u.DisplayName, 
                               u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
                               u.UserTypeId, 
                               ut.[Name] AS UserTypeName
-                         FROM Post p
-                              LEFT JOIN Category c ON p.CategoryId = c.id
+                         FROM Comment c
+                              LEFT JOIN Post p ON c.PostId = p.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
                         WHERE p.id = @id AND p.UserProfileId = @userProfileId";
@@ -146,10 +144,10 @@ namespace TabloidMVC.Repositories
 
                     Post post = null;
 
-                    if (reader.Read())
-                    {
-                        post = NewPostFromReader(reader);
-                    }
+                    //if (reader.Read())
+                    //{
+                    //    post = NewPostFromReader(reader);
+                    //}
 
                     reader.Close();
 
@@ -194,15 +192,16 @@ namespace TabloidMVC.Repositories
                         List<Comment> comments = new List<Comment>();
 
                         while (reader.Read())
+
                         {
-                            Comment comment = new Comment
+                        Comment comment = new Comment
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
                                 UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                                 Subject = reader.GetString(reader.GetOrdinal("Subject")),
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
-                                CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime"))
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
                             };
 
                             comments.Add(comment);

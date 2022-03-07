@@ -1,4 +1,6 @@
-﻿namespace TabloidMVC.Models
+﻿using System;
+
+namespace TabloidMVC.Models
 {
     public class Comment
     {
@@ -8,6 +10,6 @@
 
         public string Subject { get; set; }
         public string Content { get; set; }
-        public int CreateDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
     }
 }

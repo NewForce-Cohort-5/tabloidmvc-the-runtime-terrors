@@ -49,7 +49,7 @@ namespace TabloidMVC.Controllers
             if (comment == null)
             {
                 int commentId = GetCurrentUserProfileId();
-                comment = _commentRepository.GetUserPostById(id, commentId);
+                //comment = _commentRepository.GetUserPostById(id, commentId);
                 if (comment == null)
                 {
                     return NotFound();

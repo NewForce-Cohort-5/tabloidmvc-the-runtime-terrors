@@ -49,7 +49,7 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-        ////////////////TRYING TO VIEW ALL COMMENTS ONCE IN DETAILS////////////
+        ////////////////TRYING TO VIEW ALL COMMENTS ONCE THEY ARE IN DETAILS////////////
 
         public List<Comment> Comments()
         {
@@ -74,7 +74,7 @@ namespace TabloidMVC.Repositories
                         UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                         Subject = reader.GetString(reader.GetOrdinal("Subject")),
                         Content = reader.GetString(reader.GetOrdinal("Content")),
-                        CreateDateTime = reader.GetInt32(reader.GetOrdinal("CreateDateTime")),
+                        CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
 
                     };
 
@@ -268,5 +268,9 @@ namespace TabloidMVC.Repositories
             };
         }
 
+        public List<Comment> GetAllComments()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
