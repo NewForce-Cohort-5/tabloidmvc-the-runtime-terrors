@@ -55,5 +55,11 @@ namespace TabloidMVC.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Index()
+        {
+            List<UserProfile> users = _userProfileRepository.GetAllUserProfiles();
+            return View(users);
+        }
     }
 }
