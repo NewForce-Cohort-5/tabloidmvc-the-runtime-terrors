@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System.Security.Claims;
+using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
@@ -45,18 +46,20 @@ namespace TabloidMVC.Controllers
         //GET COMMENTS FROM DETAILS: Within details or separate public IActionResult?
         public IActionResult Comments(int id)
         {
-            var comment = _commentRepository.GetAllComments();
-            if (comment == null)
+            int userId = GetCurrentUserProfileId();
+            Post post = _postRepository.GetUserPostById(id, userId);
+            post.Comments = _commentRepository.GetAllCommentsByPostId(id);
+            if (post == null)
             {
-                int commentId = GetCurrentUserProfileId();
+                //int commentId = GetCurrentUserProfileId();
                 //comment = _commentRepository.GetUserPostById(id, commentId);
-                if (comment == null)
+                if (post == null)
                 {
                     return NotFound();
                 }
   
             }
-            return View(comment);
+            return View(post);
         }
 
         public IActionResult Create()
